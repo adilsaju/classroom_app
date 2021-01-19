@@ -16,16 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from main_view_app import views as main_views
+from assignments_view_app import views as assignment_views
 from django.urls import include
-
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', main_views.index),
     path('home/', main_views.index),
+    path('classwork/', assignment_views.classwork_page),
+
     path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', main_views.register, name='register'),
     # path('accounts/logout/', auth_views.LogoutView.as_view()),
+    # path('accounts/login/', auth_views.LoginView.as_view()),
     # path('register/', views.register, name='register'),
     # path('hide/<int:news_item_pk>/', views.hide),
 ]
