@@ -23,3 +23,7 @@ def register(request):
         form=UserCreationForm()
     context={'form':form}
     return render(request,'registration/register.html',context)
+
+@login_required(login_url='/accounts/login')
+def about(request):
+    return render(request,'about.html') 
