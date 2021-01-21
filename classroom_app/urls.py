@@ -30,5 +30,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', main_views.register, name='register'),
     path('about/', main_views.about),
+
+    path('add/post', main_views.add_post),
+    path('add/<int:post_id>/comment', main_views.add_comment),
     # path('hide/<int:news_item_pk>/', views.hide),
 ]

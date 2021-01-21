@@ -2,13 +2,20 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from _datetime import datetime
+import parsedatetime
+# from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
+from .models import *
+import copy
 
+#about***
 @login_required(login_url='/accounts/login')
-def index(request):
-    print("hello world!!!!!!")
-    context={'key1':'val1'}
-    return render(request,"main.html",context)
+def about(request):
+    return render(request,'about.html') 
 
+#registration stuff**
 def register(request):
     if request.method=="POST":
         form=UserCreationForm(request.POST)
@@ -24,6 +31,45 @@ def register(request):
     context={'form':form}
     return render(request,'registration/register.html',context)
 
+#main page logic***
 @login_required(login_url='/accounts/login')
-def about(request):
-    return render(request,'about.html') 
+def index(request):
+    print("hello world!!!!!!")
+    context={'key1':'val1'}
+
+    posts=Post.objects.all().order_by('-post_time')
+    comments=StreamComment.objects.all().select_related('corres_post').order_by('-post_time')
+    # print(comments)
+    context={'all_posts':posts, 'all_post_comments': comments }
+    return render(request,"index.html",context)
+
+
+@csrf_exempt
+@login_required(login_url='/accounts/login')
+def add_post(request):
+    if request.method=="POST":
+        post_content = request.POST['post']
+        #to remove
+        # file1 = request.POST['file1'].encode()
+        # obj2=FileTest(file_given=file1)
+        # obj2.save()
+
+        obj=Post(poster=request.user,post_time=datetime.now(),text=post_content)
+        obj.save()
+        return HttpResponse("added post")
+    else: 
+        return render(request,'add-news-item.html')
+@csrf_exempt
+@login_required(login_url='/accounts/login')
+def add_comment(request, post_id):
+    if request.method=="POST":
+        comment1 = request.POST['comment']
+        print("###############")
+        print(comment1)
+        print(post_id)
+
+        obj=StreamComment(text=comment1,post_time=datetime.now(),corres_post_id=post_id)
+        obj.save()
+        return HttpResponse("added comment")
+    else: 
+        return render(request,'index.html')

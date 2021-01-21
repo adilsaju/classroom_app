@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content_body %}
+
+<div class="container">
+    <form action="/add/post" method="POST">
+    
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="post">post</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" name="post">
+                </textarea>
+                    <br>
+            </div>
+        </div>
+        <!-- #to remove -->
+        <!-- <input type="file" id="file1" name="file1"> -->
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Post</button>
+            </div>
+        </div>
+
+    
+    </form>
+
+</div>
+
+{% endblock content_body %}
