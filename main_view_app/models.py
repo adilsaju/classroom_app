@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
-
+from django.contrib.auth.models import AbstractUser
+from classroom_app import settings
 
 # Create your models here.
 class Post(models.Model):
     #FIXME: not User, actually TeacherUser
     #manytoone
-    poster= models.ForeignKey(User, on_delete=models.CASCADE, default="")
+    poster= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
     post_time=models.DateTimeField(default=datetime.now)
     #or TextField?
     text = models.CharField(max_length=1000, default="")
@@ -20,10 +21,15 @@ class StreamComment(models.Model):
     post_time=models.DateTimeField(default=datetime.now)
     corres_post=models.ForeignKey(Post, on_delete=models.CASCADE, default="")
 
-class StudentUser(User):
-    pass
-class TeacherUser(User):
-    pass
+class User(AbstractUser):
+    # or can be "teacher"
+    class_member_type = models.CharField(max_length=20, default="student")
+
+# TYPES = (('Student', 'Student'), ('Staff', 'Staff'), ('Parent', 'Parent'), )
+# class StudentUser(AbstractUser):
+#     studentClass = models.CharField(max_length=1000, default="stud5th")
+# class TeacherUser(AbstractUser):
+#     teacherClass = models.CharField(max_length=1000, default="teacherOne")
 
 # #to remove
 # class FileTest(models.Model):
