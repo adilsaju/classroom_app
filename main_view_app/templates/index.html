@@ -13,10 +13,11 @@
         <p>A virtual classroom</p>
     </div>
     <div class=container>
+    {% if user.class_member_type is 'teacher' %}
     <form action="/add/post">
         <input class="btn btn-outline-primary" type="submit" value="add new post"/>
     </form>
-
+    {% endif %}
 
     </div>
     <div class="container">
@@ -63,13 +64,10 @@
 
 
 </ul>
-
-
-
-
                 </div>
             </li>
             {% endfor %}
+
         </ul>
     </div>
 {% endblock content_body %}

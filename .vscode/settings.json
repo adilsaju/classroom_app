@@ -1,0 +1,5 @@
+{
+    "html.format.indentHandlebars": true,
+    "java.format.enabled": false,
+    "html.format.enable": false
+}

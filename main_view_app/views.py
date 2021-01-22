@@ -9,6 +9,7 @@ import parsedatetime
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import copy
+from .forms import *
 
 #about***
 @login_required(login_url='/accounts/login')
@@ -18,7 +19,8 @@ def about(request):
 #registration stuff**
 def register(request):
     if request.method=="POST":
-        form=UserCreationForm(request.POST)
+        # class_member_type=request.POST['class_member_type']
+        form=ClassAddForm(request.POST)
         if form.is_valid():
             form.save()
             username=form.cleaned_data['username']
@@ -27,7 +29,8 @@ def register(request):
             login(request,user)
             return redirect('/')
     else:
-        form=UserCreationForm()
+        # form=UserCreationForm()
+        form= ClassAddForm()
     context={'form':form}
     return render(request,'registration/register.html',context)
 
