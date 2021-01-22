@@ -5,71 +5,76 @@
 {% endblock  %}
 
 {% block content_body %}
-    <div class="jumbotron">
-        {% if user.is_authenticated %}
-            <p> Welcome {{ user.username }}</p>
-        {% endif %}
-        <h1>Classroom</h1>
-        <p>A virtual classroom</p>
-    </div>
-    <div class=container>
-    {% if user.class_member_type is 'teacher' %}
+<div class="jumbotron">
+    {% if user.is_authenticated %}
+    <p> Welcome {{ user.username }}</p>
+    {% endif %}
+    <h1>Classroom</h1>
+    <p>A virtual classroom</p>
+</div>
+<div class=container>
+    {% if user.class_member_type == 'teacher' %}
     <form action="/add/post">
-        <input class="btn btn-outline-primary" type="submit" value="add new post"/>
+        <input class="btn btn-outline-primary" type="submit" value="add new post" />
     </form>
     {% endif %}
 
-    </div>
-    <div class="container">
-        <ul id="news_items" class="list-group">
+</div>
+<div class="container">
+    <ul id="news_items" class="list-group">
 
-                        {% for item in all_posts %}
-            <li class="list-group-item">
-                <div>
-                    <h5>{{item.poster}}</h5>
-                    <small>{{ item.post_time }}</small>
-                    <p>{{ item.text }}</p>
-                    {% comment %} <a rel="nofollow" href="{{ item.text }}">{{ item.text }}</a> {% endcomment %}
+        {% if all_posts.count is 0 %}
+        <p>wow such empty!</p>
+        {% endif %}
 
-
-
-    <ul id="comment_list" class="list-group">
+        {% for item in all_posts %}
         <li class="list-group-item">
-    <form action="/add/{{item.id}}/comment" method="POST">
-        <div class="row">
-            <div class="col-sm-10">
-                <input class="form-control" type="text" placeholder="Add class comment" name="comment">                
+            <div>
+                <h5>{{item.poster}}</h5>
+                <small>{{ item.post_time }}</small>
+                <p>{{ item.text }}</p>
+                {% comment %} <a rel="nofollow" href="{{ item.text }}">{{ item.text }}</a> {% endcomment %}
+
+
+
+                <ul id="comment_list" class="list-group">
+                    <li class="list-group-item">
+                        <form action="/add/{{item.id}}/comment" method="POST">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="Add class comment"
+                                        name="comment">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                    <!-- sub forloop for comments-->
+
+                    {% for comment in all_post_comments %}
+                    {% if comment.corres_post_id is item.id  %}
+                    <li class="list-group-item">
+                        <div>
+                            <p>
+                                <span>{{comment.text}}</span>
+                                <span><small style="float: right;">{{comment.post_time}}</small></span>
+                                <span><strong style="float: right;">{{comment.poster}}</strong></span> 
+                            </p>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+
+                </ul>
             </div>
-            <div class="col-sm-2">
-                <button type="submit" class="btn btn-primary">Add Comment</button>
-            </div>
-        </div>
-    </form>
         </li>
-<!-- sub forloop for comments-->
+        {% endfor %}
 
-{% for comment in all_post_comments %}
-{% if comment.corres_post_id is item.id  %}
-<li class="list-group-item">
-    <div>
-        <p>
-            <span>{{comment.text}}</span>
-            <!-- <span><strong style="float: right;">{{comment.poster}}</strong></span>  -->
-            <span><small style="float: right;">{{comment.post_time}}</small></span> 
-        </p>
-    </div>
-</li>
-{% endif %}
-{% endfor %}
-
-
-</ul>
-                </div>
-            </li>
-            {% endfor %}
-
-        </ul>
-    </div>
+    </ul>
+</div>
 {% endblock content_body %}
 
 

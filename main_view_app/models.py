@@ -16,7 +16,7 @@ class Post(models.Model):
         return self.post_time
 
 class StreamComment(models.Model):
-    # poster= models.ForeignKey(User, on_delete=models.CASCADE, default="", blank=True, null=True)
+    poster= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="", blank=True, null=True)
     text=models.CharField(max_length=1000, default="")
     post_time=models.DateTimeField(default=datetime.now)
     corres_post=models.ForeignKey(Post, on_delete=models.CASCADE, default="")

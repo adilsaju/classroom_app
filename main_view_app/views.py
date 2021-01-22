@@ -67,11 +67,12 @@ def add_post(request):
 def add_comment(request, post_id):
     if request.method=="POST":
         comment1 = request.POST['comment']
-        print("###############")
+        print("###############poster")
+        print(request.user)
         print(comment1)
         print(post_id)
 
-        obj=StreamComment(text=comment1,post_time=datetime.now(),corres_post_id=post_id)
+        obj=StreamComment(poster=request.user,text=comment1,post_time=datetime.now(),corres_post_id=post_id)
         obj.save()
         return HttpResponse("added comment")
     else: 
