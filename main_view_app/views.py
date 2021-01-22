@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import copy
 from .forms import *
+from django.contrib.auth.decorators import user_passes_test
+
 
 #about***
 @login_required(login_url='/accounts/login')
@@ -57,7 +59,14 @@ def search(request):
     # context={'all_posts':posts, 'all_post_comments': comments }
     return HttpResponse("hello world search!!!!")
 
+def is_teacher(user):
+    try:
+        return user.is_authenticated and user.class_member_type == "teacher"
+    except User.DoesNotExist:
+        return False
 
+
+@user_passes_test(is_teacher)
 @csrf_exempt
 @login_required(login_url='/accounts/login')
 def add_post(request):
