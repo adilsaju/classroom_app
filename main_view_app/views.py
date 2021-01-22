@@ -46,6 +46,17 @@ def index(request):
     context={'all_posts':posts, 'all_post_comments': comments }
     return render(request,"index.html",context)
 
+@login_required(login_url='/accounts/login')
+def search(request):
+    print("hello world!!!!!!")
+    context={'key1':'val1'}
+
+    # posts=Post.objects.all().order_by('-post_time')
+    # comments=StreamComment.objects.all().select_related('corres_post').order_by('-post_time')
+    # print(comments)
+    # context={'all_posts':posts, 'all_post_comments': comments }
+    return HttpResponse("hello world search!!!!")
+
 
 @csrf_exempt
 @login_required(login_url='/accounts/login')

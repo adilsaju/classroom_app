@@ -32,6 +32,12 @@ urlpatterns = [
     path('about/', main_views.about),
 
     path('add/post', main_views.add_post),
+
+    #assignment app view
+    path('add/assignment', assignment_views.add_assignment),
+    path('download', assignment_views.download_blob),
+
     path('add/<int:post_id>/comment', main_views.add_comment),
+    path('search', main_views.search),
     # path('hide/<int:news_item_pk>/', views.hide),
 ]

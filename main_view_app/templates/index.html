@@ -30,7 +30,11 @@
         {% for item in all_posts %}
         <li class="list-group-item">
             <div>
-                <h5>{{item.poster}}</h5>
+                <h5>
+                    <strong>
+                        {{item.poster}}</h5>
+
+                </strong>
                 <small>{{ item.post_time }}</small>
                 <p>{{ item.text }}</p>
                 {% comment %} <a rel="nofollow" href="{{ item.text }}">{{ item.text }}</a> {% endcomment %}
@@ -57,11 +61,27 @@
                     {% if comment.corres_post_id is item.id  %}
                     <li class="list-group-item">
                         <div>
-                            <p>
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    <p>
+                                        <span><strong>{{comment.poster}}</strong></span>
+                                    </p>
+                                    <p>
+                                        <span><small>{{comment.post_time}}</small></span>
+                                    </p>
+                                </div>
+                                <div class="col-sm-10">
+                                    <p>
+                                        <span>{{comment.text}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- <p>
                                 <span>{{comment.text}}</span>
                                 <span><small style="float: right;">{{comment.post_time}}</small></span>
                                 <span><strong style="float: right;">{{comment.poster}}</strong></span> 
-                            </p>
+                            </p> -->
                         </div>
                     </li>
                     {% endif %}

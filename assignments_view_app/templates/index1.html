@@ -8,16 +8,92 @@
     <h1>hello assignments</h1>
     <p>{{key1}}</p>
 </div>
-    <div class="container">
-        <ul id="news_items" class="list-group">
-            <li class="list-group-item">
-                <div>
-                    <h3>abc</h3>
-                    <p>{{key1}}</p>
-                </div>
-            </li>
-        </ul>
-    </div>
+<div class="container">
+    <!-- <ul id="news_items" class="list-group">
+        <li class="list-group-item">
+            <div>
+                <h3>abc</h3>
+                <p>{{key1}}</p>
+            </div>
+        </li>
+    </ul> -->
+    <ul id="news_items" class="list-group">
+
+        {% if all_posts.count is 0 %}
+        <p>wow such empty!</p>
+        {% endif %}
+
+        {% for item in all_posts %}
+        <li class="list-group-item">
+            <div>
+                <h5>
+                    <strong>
+                        {{item.poster}}</h5>
+
+                </strong>
+                <small>{{ item.post_time }}</small>
+                <p>{{ item.text }}</p>
+                <p>{{ item.question_content }}</p>
+                <a href="{{ item.question_content.url }}" download>raaaaaaaa</a>
+                {% comment %} <a rel="nofollow" href="{{ item.text }}">{{ item.text }}</a> {% endcomment %}
+
+
+
+                <ul id="comment_list" class="list-group">
+                    <li class="list-group-item">
+                        <form action="/add/{{item.id}}/comment" method="POST">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="Add class comment"
+                                        name="comment">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
+                    <!-- sub forloop for comments-->
+
+                    <!-- {% for comment in all_post_comments %}
+                    {% if comment.corres_post_id is item.id  %}
+                    <li class="list-group-item">
+                        <div>
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    <p>
+                                        <span><strong>{{comment.poster}}</strong></span>
+                                    </p>
+                                    <p>
+                                        <span><small>{{comment.post_time}}</small></span>
+                                    </p>
+                                </div>
+                                <div class="col-sm-10">
+                                    <p>
+                                        <span>{{comment.text}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- <p>
+                                <span>{{comment.text}}</span>
+                                <span><small style="float: right;">{{comment.post_time}}</small></span>
+                                <span><strong style="float: right;">{{comment.poster}}</strong></span> 
+                            </p> -->
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %} -->
+
+
+                </ul>
+            </div>
+        </li>
+        {% endfor %}
+
+    </ul>
+
+</div>
 {% endblock  %}
 
 {% block content_script %}
